@@ -1,5 +1,5 @@
 import { ProductItem } from "./ProductItem";
-import { useMemo } from 'react'
+import { List, AutoSizer, ListRowRenderer } from 'react-virtualized'
 interface SearchResultsProps {
     totalPrice: number
     results: Array<{
@@ -12,25 +12,29 @@ interface SearchResultsProps {
 }
 
 export function SearchResults({ results, onToWishList, totalPrice }: SearchResultsProps) {
+    const rowRenderer: ListRowRenderer = ({ index, key, style }) => {
+        return (
+            <div key={key} style={style}>
+                <ProductItem
+                    product={results[index]}
+                    onToWishList={onToWishList}
+                />
+            </div>
+        )
+    }
 
     return (
         <div>
             <h2>{totalPrice}</h2>
 
-            {results.map(product => {
-                return (
-                    <ProductItem
-                        key={product.id}
-                        product={product}
-                        onToWishList={onToWishList}
-                    />
-                )
-            })}
+            <List
+                height={300}
+                rowHeight={30}
+                width={900}
+                overscanRowCount={5}
+                rowCount={results.length}
+                rowRenderer={rowRenderer}
+            />
         </div>
     )
-}
-
-/** --use/memo
- * 1. calculos pesados
- * 2. igualdade referencial (quando a gente repassa aquela info a um componente filho)
- */
+}   

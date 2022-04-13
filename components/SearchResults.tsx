@@ -1,5 +1,5 @@
 import { ProductItem } from "./ProductItem";
-import { List, AutoSizer, ListRowRenderer } from 'react-virtualized'
+import { List, ListRowRenderer } from 'react-virtualized'
 interface SearchResultsProps {
     totalPrice: number
     results: Array<{
@@ -26,7 +26,7 @@ export function SearchResults({ results, onToWishList, totalPrice }: SearchResul
     return (
         <div>
             <h2>{totalPrice}</h2>
-
+        
             <List
                 height={300}
                 rowHeight={30}
